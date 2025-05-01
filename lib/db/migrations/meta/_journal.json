@@ -8,6 +8,13 @@
       "when": 1746053696248,
       "tag": "0000_nifty_paper_doll",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1746061386016,
+      "tag": "0001_wise_kid_colt",
+      "breakpoints": true
     }
   ]
 }
