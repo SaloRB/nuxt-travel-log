@@ -3,6 +3,14 @@
   "prettier.enable": false,
   "editor.formatOnSave": false,
 
+  // Use eslint as the default formatter
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
