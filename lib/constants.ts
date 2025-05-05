@@ -1,0 +1,1 @@
+export const CENTER_WORLD = [-39.511220, 35.008598];
