@@ -39,7 +39,7 @@ export const useMapStore = defineStore("useMapStore", () => {
       if (newValue && !oldValue) {
         map.map?.flyTo({
           center: [newValue.long, newValue.lat],
-          zoom: 6,
+          zoom: 4,
           speed: 0.8,
         });
       }
