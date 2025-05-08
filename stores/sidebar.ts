@@ -1,12 +1,4 @@
-import type { MapPoint } from "~/lib/types";
-
-export type SidebarItem = {
-  id: string;
-  label: string;
-  icon: string;
-  href: string;
-  location?: MapPoint | null;
-};
+import type { SidebarItem } from "~/lib/types";
 
 export const useSidebarStore = defineStore("useSidebarStore", () => {
   const sidebarItems = ref<SidebarItem[]>([]);
