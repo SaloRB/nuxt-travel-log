@@ -163,7 +163,6 @@ onBeforeRouteLeave(() => {
           class="btn btn-outline"
           @click="router.back()"
         >
-          <Icon name="tabler:arrow-left" size="24" />
           Cancel
         </button>
         <button
@@ -171,13 +170,13 @@ onBeforeRouteLeave(() => {
           type="submit"
           class="btn btn-primary"
         >
-          Add
           <span v-if="loading" class="loading loading-spinner loading-sm" />
           <Icon
             v-else
             name="tabler:circle-plus-filled"
             size="24"
           />
+          Add
         </button>
       </div>
     </form>
