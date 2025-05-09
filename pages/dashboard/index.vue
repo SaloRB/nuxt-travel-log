@@ -2,10 +2,10 @@
 const locationsStore = useLocationStore();
 const mapStore = useMapStore();
 
-const { locations, status } = storeToRefs(locationsStore);
+const { locations, locationStatus: status } = storeToRefs(locationsStore);
 
 onMounted(() => {
-  locationsStore.refresh();
+  locationsStore.refreshLocations();
 });
 </script>
 
