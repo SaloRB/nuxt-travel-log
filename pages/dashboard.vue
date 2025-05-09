@@ -52,7 +52,7 @@ effect(() => {
         id: "link-location-edit",
         label: "Edit Location",
         to: {
-          name: "dashboard-location-slug",
+          name: "dashboard-location-slug-edit",
           params: {
             slug: currentLocation.value?.slug,
           },
@@ -63,7 +63,7 @@ effect(() => {
         id: "link-location-add",
         label: "Add Location Log",
         to: {
-          name: "dashboard-location-slug",
+          name: "dashboard-location-slug-add",
           params: {
             slug: currentLocation.value?.slug,
           },
