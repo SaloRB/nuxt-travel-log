@@ -1,31 +1,20 @@
 import type { SelectLocationWithLogs } from "~/lib/db/schema";
-import type { MapPoint, SidebarItem } from "~/lib/types";
+import type { MapPoint } from "~/lib/types";
 
-const listLocationsInSidebar = new Set([
-  "dashboard",
-  "dashboard-add",
-]);
-
-const listCurrentLocationInSidebar = new Set([
-  "dashboard-location-slug",
-  "dashboard-location-slug-edit",
-  "dashboard-location-slug-add",
-]);
+import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from "~/lib/constants";
 
 export const useLocationStore = defineStore("useLocationStore", () => {
   const route = useRoute();
 
   const {
     data: locations,
-    status: locationStatus,
+    status: locationsStatus,
     refresh: refreshLocations,
   } = useFetch("/api/locations", {
     lazy: true,
   });
 
-  const locationUrlWithSlug = computed(() =>
-    `/api/locations/${route.params.slug}`,
-  );
+  const locationUrlWithSlug = computed(() => `/api/locations/${route.params.slug}`);
 
   const {
     data: currentLocation,
@@ -44,7 +33,7 @@ export const useLocationStore = defineStore("useLocationStore", () => {
   effect(() => {
     if (
       locations.value
-      && listLocationsInSidebar.has(route.name?.toString() || "")
+      && LOCATION_PAGES.has(route.name?.toString() || "")
     ) {
       const mapPoints: MapPoint[] = [];
       const sidebarItems: SidebarItem[] = [];
@@ -55,15 +44,9 @@ export const useLocationStore = defineStore("useLocationStore", () => {
           id: `location-${location.id}`,
           label: location.name,
           icon: "tabler:map-pin-filled",
-          to: {
-            name: "dashboard-location-slug",
-            params: {
-              slug: location.slug,
-            },
-          },
+          to: { name: "dashboard-location-slug", params: { slug: location.slug } },
           mapPoint,
         });
-
         mapPoints.push(mapPoint);
       });
 
@@ -72,17 +55,17 @@ export const useLocationStore = defineStore("useLocationStore", () => {
     }
     else if (
       currentLocation.value
-      && listCurrentLocationInSidebar.has(route.name?.toString() || "")
+      && CURRENT_LOCATION_PAGES.has(route.name?.toString() || "")
     ) {
       sidebarStore.sidebarItems = [];
       mapStore.mapPoints = [currentLocation.value];
     }
-    sidebarStore.loading = locationStatus.value === "pending";
+    sidebarStore.loading = locationsStatus.value === "pending";
   });
 
   return {
     locations,
-    locationStatus,
+    locationsStatus,
     currentLocation,
     currentLocationStatus,
     currentLocationError,
