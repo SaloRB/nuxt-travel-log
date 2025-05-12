@@ -2,6 +2,7 @@
 import type { FetchError } from "ofetch";
 
 const route = useRoute();
+const router = useRouter();
 const locationStore = useLocationStore();
 
 const {
@@ -30,13 +31,15 @@ async function confirmDelete() {
     await $fetch(`/api/locations/${route.params.slug}`, {
       method: "DELETE",
     });
-    navigateTo("/dashboard");
+    await router.push({ name: "dashboard" });
   }
   catch (e) {
     const error = e as FetchError;
     deleteError.value = getFetchErrorMessage(error);
   }
-  isDeleting.value = false;
+  finally {
+    isDeleting.value = false;
+  }
 }
 
 onMounted(() => {
