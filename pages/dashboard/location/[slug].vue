@@ -122,7 +122,7 @@ onBeforeRouteUpdate((to) => {
       :title="`Are you sure you want to delete ${location?.name}?`"
       :is-open="isOpen"
       description="Deleting this location all also delete all of the associated logs. This action cannot be undone. Do you really want to delete this location?"
-      :confirm-label="`Yes, delete ${location?.name}`"
+      confirm-label="Yes, delete this location"
       confirm-class="btn-error"
       @on-closed="isOpen = false"
       @on-confirmed="confirmDelete"
