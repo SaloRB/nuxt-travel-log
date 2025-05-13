@@ -2,7 +2,7 @@
 const locationsStore = useLocationStore();
 const mapStore = useMapStore();
 
-const { locations, locationStatus: status } = storeToRefs(locationsStore);
+const { locations, locationsStatus: status } = storeToRefs(locationsStore);
 
 onMounted(() => {
   locationsStore.refreshLocations();
