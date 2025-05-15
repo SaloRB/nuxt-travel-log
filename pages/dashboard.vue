@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-import { CURRENT_LOCATION_PAGES, EDIT_PAGES, LOCATION_PAGES } from "~/lib/constants";
+import {
+  CURRENT_LOCATION_LOG_PAGES,
+  CURRENT_LOCATION_PAGES,
+  EDIT_PAGES,
+  LOCATION_PAGES,
+} from "~/lib/constants";
 
 const isSidebarOpen = ref(true);
 const route = useRoute();
@@ -16,8 +21,16 @@ const {
 if (LOCATION_PAGES.has(route.name?.toString() || "")) {
   await locationsStore.refreshLocations();
 }
-if (CURRENT_LOCATION_PAGES.has(route.name?.toString() || "")) {
+
+if (
+  CURRENT_LOCATION_PAGES.has(route.name?.toString() || "")
+  || CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || "")
+) {
   await locationsStore.refreshCurrentLocation();
+}
+
+if (CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || "")) {
+  await locationsStore.refreshCurrentLocationLog();
 }
 
 onMounted(() => {
@@ -81,6 +94,48 @@ effect(() => {
         },
         icon: "tabler:circle-plus-filled",
       });
+    }
+  }
+  else if (
+    CURRENT_LOCATION_LOG_PAGES.has(route.name?.toString() || "")
+  ) {
+    if (
+      currentLocation.value
+      && currentLocationStatus.value !== "pending"
+    ) {
+      sidebarStore.sidebarTopItems = [{
+        id: "link-location",
+        label: `Back to "${currentLocation.value.name}"`,
+        to: {
+          name: "dashboard-location-slug",
+          params: {
+            slug: route.params.slug,
+          },
+        },
+        icon: "tabler:arrow-left",
+      }, {
+        id: "link-edit-location-log",
+        label: "View Log",
+        to: {
+          name: "dashboard-location-slug-id",
+          params: {
+            slug: route.params.slug,
+            id: route.params.id,
+          },
+        },
+        icon: "tabler:map-pin",
+      }, {
+        id: "link-edit-location-log",
+        label: "Edit Log",
+        to: {
+          name: "dashboard-location-slug-id-edit",
+          params: {
+            slug: route.params.slug,
+            id: route.params.id,
+          },
+        },
+        icon: "tabler:map-pin-cog",
+      }];
     }
   }
 });
