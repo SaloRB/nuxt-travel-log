@@ -45,10 +45,6 @@ async function confirmDelete() {
   }
 }
 
-onMounted(() => {
-  locationStore.refreshCurrentLocation();
-});
-
 onBeforeRouteUpdate((to) => {
   if (to.name === "dashboard-location-slug") {
     locationStore.refreshCurrentLocation();
