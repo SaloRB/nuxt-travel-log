@@ -2,7 +2,6 @@
 import type { FetchError } from "ofetch";
 
 const route = useRoute();
-const router = useRouter();
 const locationStore = useLocationStore();
 
 const {
@@ -18,6 +17,10 @@ const isDeleting = ref(false);
 const loading = computed(() => status.value === "pending" || isDeleting.value);
 const errorMessage = computed(() => error.value?.statusMessage || deleteError.value);
 
+onMounted(() => {
+  locationStore.refreshCurrentLocation();
+});
+
 function openDialog() {
   isOpen.value = true;
   (document.activeElement as HTMLAnchorElement).blur();
@@ -31,7 +34,7 @@ async function confirmDelete() {
     await $fetch(`/api/locations/${route.params.slug}`, {
       method: "DELETE",
     });
-    await router.push({ name: "dashboard" });
+    navigateTo("/dashboard");
   }
   catch (e) {
     const error = e as FetchError;
@@ -125,7 +128,7 @@ onBeforeRouteUpdate((to) => {
       </div>
     </div>
     <div
-      v-if="route.name === 'dashboard-location-slug' && location?.locationLogs.length"
+      v-if="route.name === 'dashboard-location-slug' && !loading && location?.locationLogs.length"
       class="location-list"
     >
       <LocationCard
