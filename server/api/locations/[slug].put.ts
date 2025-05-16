@@ -17,10 +17,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
   );
 
   if (existingLocation && existingLocation.slug !== slug) {
-    return sendError(event, createError({
+    throw createError({
       statusCode: 409,
       statusMessage: "A location with this name already exists",
-    }));
+    });
   }
 
   return updateLocationBySlug(result.data, slug, event.context.user.id);
