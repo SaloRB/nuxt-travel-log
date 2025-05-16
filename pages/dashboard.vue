@@ -114,7 +114,7 @@ effect(() => {
         },
         icon: "tabler:arrow-left",
       }, {
-        id: "link-edit-location-log",
+        id: "link-view-location-log",
         label: "View Log",
         to: {
           name: "dashboard-location-slug-id",
@@ -135,6 +135,17 @@ effect(() => {
           },
         },
         icon: "tabler:map-pin-cog",
+      }, {
+        id: "link-location-log-images",
+        label: "Manage Images",
+        to: {
+          name: "dashboard-location-slug-id-images",
+          params: {
+            slug: route.params.slug,
+            id: route.params.id,
+          },
+        },
+        icon: "tabler:photo-cog",
       }];
     }
   }
