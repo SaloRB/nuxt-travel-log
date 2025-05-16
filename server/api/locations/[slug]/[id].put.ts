@@ -4,6 +4,7 @@ import { findLocation } from "~/lib/db/queries/location";
 import { updateLocationLog } from "~/lib/db/queries/location-log";
 import { InsertLocationLog } from "~/lib/db/schema";
 import defineAuthenticatedEventHandler from "~/utils/define-authenticated-event-handler";
+import sendZodError from "~/utils/send-zod-error";
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const slug = getRouterParam(event, "slug") as string;
@@ -14,25 +15,25 @@ export default defineAuthenticatedEventHandler(async (event) => {
   );
 
   if (!result.success) {
-    return sendError(event, result.error);
+    return sendZodError(event, result.error);
   }
 
   const location = await findLocation(slug, event.context.user.id);
 
   if (!location) {
-    return sendError(event, createError({
+    throw createError({
       statusCode: 404,
       statusMessage: "Location not found",
-    }));
+    });
   }
 
   const id = getRouterParam(event, "id") as string;
 
   if (!z.coerce.number().safeParse(id).success) {
-    return sendError(event, createError({
+    throw createError({
       statusCode: 422,
       statusMessage: "Invalid ID",
-    }));
+    });
   }
 
   const locationLog = await updateLocationLog(
@@ -42,10 +43,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
   );
 
   if (!locationLog) {
-    return sendError(event, createError({
+    throw createError({
       statusCode: 404,
       statusMessage: "Location Log not found",
-    }));
+    });
   }
 
   return locationLog;
